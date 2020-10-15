@@ -9,9 +9,10 @@ apple = randrange(SIZE, RES - SIZE, SIZE), randrange(SIZE, RES - SIZE, SIZE)
 length = 1
 snake = [(x, y)]
 dx, dy = 0, 0
-fps = 5
+fps = 60
 dirs = {'W': True, 'S': True, 'A': True, 'D': True, }
 score = 0
+speed_count, snake_speed = 0, 10
 
 pygame.init()
 surface = pygame.display.set_mode([RES, RES])
@@ -34,16 +35,20 @@ while True:
     render_score = font_score.render(f'SCORE: {score}', 1, pygame.Color('orange'))
     surface.blit(render_score, (5, 5))
     # snake movement
-    x += dx * SIZE
-    y += dy * SIZE
-    snake.append((x, y))
-    snake = snake[-length:]
+    speed_count += 1
+    if not speed_count % snake_speed:
+	    x += dx * SIZE
+	    y += dy * SIZE
+	    snake.append((x, y))
+	    snake = snake[-length:]
     # eating food
     if snake[-1] == apple:
         apple = randrange(SIZE, RES - SIZE, SIZE), randrange(SIZE, RES - SIZE, SIZE)
         length += 1
-        fps += 1
         score += 1
+        snake_speed -= 1
+        print(snake_speed)
+        snake_speed = max(snake_speed, 4)
     # game over
     if x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE or len(snake) != len(set(snake)):
         while True:

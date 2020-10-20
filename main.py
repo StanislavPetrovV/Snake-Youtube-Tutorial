@@ -47,7 +47,6 @@ while True:
         length += 1
         score += 1
         snake_speed -= 1
-        print(snake_speed)
         snake_speed = max(snake_speed, 4)
     # game over
     if x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE or len(snake) != len(set(snake)):
